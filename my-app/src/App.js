@@ -43,17 +43,17 @@ export default function App() {
   const postNewUser = newUser => {
     axios.post('https://reqres.in/api/users', newUser)
       .then(res => {
-        setUsers(res.data, ...users);
+        setUsers([res.data, ...users]);
       }).catch(err => console.error(err))
 
       setFormValues(initialValues)
   }
-  //call validate(first_name) and validate(last_name)
+
   const validate = (name, value) => {
     yup.reach(formSchema, name)
       .validate(value)
       .then(() => setFormErrors({...formErrors, [name]:''}))
-      .catch(err => setFormErrors({...formErrors, name:[err.errors[0]]}))
+      .catch(err => setFormErrors({...formErrors, [name]:err.errors[0]}))
   }
 
   const inputChange = (name, value) => {
